@@ -7,9 +7,7 @@ import android.graphics.*;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,7 +15,7 @@ import android.widget.FrameLayout;
 import java.io.InputStream;
 
 public class MyActivity extends Activity {
-    private static final String[] pages = {"one", "two", };
+    private static final String[] pages = {"one", "two", "three"};
     private Pager pager;
     private PagerFactory pagerFactory;
     private Bitmap mCurPageBitmap, mRightPageBitmap, mLeftPageBitmap;
