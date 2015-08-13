@@ -19,6 +19,7 @@ public class Pager extends View {
     private boolean isSplitNextImage = true;
     private int mRows = 4;
     private int mColumns = 6;
+    private boolean isSetCoord = false;
     private float[] oldCoordX;
     private float[] oldCoordY;
     private float[] coordX;
@@ -148,7 +149,11 @@ public class Pager extends View {
         if (isSplitCurImage) {
             isSplitCurImage = false;
             curImagePieces = split(bitmap, mRows, mColumns);
-            setCoordinate();
+            if(!isSetCoord){
+                setCoordinate();
+                isSetCoord = true;
+            }
+
         }
         float transformRatio = Math.abs(deltaDistance) / (mWidth / 4);
         if (transformRatio <= 1.0f) {
