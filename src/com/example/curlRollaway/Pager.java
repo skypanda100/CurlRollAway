@@ -2,7 +2,6 @@ package com.example.curlRollaway;
 
 import android.content.Context;
 import android.graphics.*;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -270,12 +269,6 @@ public class Pager extends View {
     }
 
     public boolean doTouchEvent(MotionEvent event) {
-        //将事件加入到VelocityTracker中，用于计算手指抬起时的初速度
-        if (velocityTracker == null) {
-            velocityTracker = VelocityTracker.obtain();
-        }
-        velocityTracker.addMovement(event);
-
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             mTouch.x = (float) Math.ceil(event.getX());
             mTouch.y = (float) Math.ceil(event.getY());
@@ -290,20 +283,6 @@ public class Pager extends View {
             this.postInvalidate();
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            //maxFlingVelocity是通过ViewConfiguration来获取的初速度的上限
-            //这个值可能会因为屏幕的不同而不同
-            velocityTracker.computeCurrentVelocity(1);
-            float velocityX = velocityTracker.getXVelocity();
-
-            if (velocityTracker != null) {
-                velocityTracker.recycle();
-                velocityTracker = null;
-            }
-
-            /*if(Math.abs(velocityX) > 5){
-                startAnimation(2000);
-                return true;
-            }*/
             if (canDragOver()) {
                 startAnimation(2000);
             }else{
@@ -316,7 +295,7 @@ public class Pager extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //canvas.drawColor(0xFFE5E0EC);
+        canvas.drawColor(0xFFAAAAAA);
         deltaDistance = mTouch.x - mFirstTouch.x;
         if(deltaDistance < 0.0f){
             if(deltaDistance > -2.0f) {
@@ -346,17 +325,18 @@ public class Pager extends View {
 
     private void startAnimation(int delayMillis) {
         int dx;
-        if (deltaDistance < 0) {
-            if(Math.abs(deltaDistance) > mWidth / 4){
-                dx = -(int) (mWidth/2 + deltaDistance + 10);
+        float tmpDeltaDistance = mTouch.x - mFirstTouch.x;
+        if (tmpDeltaDistance < 0) {
+            if(Math.abs(tmpDeltaDistance) > mWidth / 4){
+                dx = -(int) (mWidth/2 + tmpDeltaDistance + 10);
             }else{
-                dx = (int) Math.abs(deltaDistance);
+                dx = (int) Math.abs(tmpDeltaDistance);
             }
         } else {
-            if(deltaDistance > mWidth / 4){
-                dx = (int) (mWidth/2 - deltaDistance + 10);
+            if(tmpDeltaDistance > mWidth / 4){
+                dx = (int) (mWidth/2 - tmpDeltaDistance + 10);
             }else{
-                dx = (int) -deltaDistance;
+                dx = (int) -tmpDeltaDistance;
             }
         }
         mScroller.startScroll((int) mTouch.x, 0, dx, 0, delayMillis);
