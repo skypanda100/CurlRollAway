@@ -3,7 +3,6 @@ package com.example.curlRollaway;
 import android.content.Context;
 import android.graphics.*;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.Scroller;
 
@@ -35,8 +34,6 @@ public class Pager extends View {
     Bitmap mNextPageBitmap = null;
 
     Scroller mScroller;
-    private VelocityTracker velocityTracker;
-
     public Pager(Context context, int screenWidth, int screenHeight) {
         super(context);
         this.mWidth = screenWidth;
